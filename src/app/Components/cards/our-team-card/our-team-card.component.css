@@ -1,0 +1,71 @@
+.card-container{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content:center;
+  align-items: center;
+  padding: 20px 100px;
+  gap: 30px;
+}
+.our-team-card{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color: #fff;
+  padding: 20px;
+  width: 340px;
+  height: 470px;
+  border-radius: 24px;
+  border: 1px solid #D4D2E3;
+}
+
+.our-team-card .card-image img{
+  border-radius: 100px;
+  margin: 30px 0;
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+}
+  .card-content{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+}
+.name{
+  padding-bottom: 10px;
+  font-size: 24px;
+  font-weight: 600;
+  color: #007E85;
+}
+.our-team-card .role{
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+}
+.our-team-card .content{
+  text-align: justify;
+  padding: 10px 10px;
+}
+.social-links{
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  align-items: center;
+}
+.links{
+  background-color: #007E851A;
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .06s ease-in-out;
+  
+}
+.links:hover{
+  cursor: pointer;
+  transform: scale(1.2);
+}

@@ -1,0 +1,34 @@
+<div class="sidebar">
+  <ul>
+    <li
+      [ngClass]="{ active: activeItem === 'Dashboard' }"
+      (click)="onItemClick('Dashboard')"
+    >
+      Dashboard
+    </li>
+    <li
+      [ngClass]="{ active: activeItem === 'Patients' }"
+      (click)="onItemClick('Patients')"
+    >
+      Patients
+    </li>
+    <li
+      [ngClass]="{ active: activeItem === 'Patients Reports' }"
+      (click)="onItemClick('Patients Reports')"
+    >
+      Patients Reports
+    </li>
+    <li
+    [ngClass]="{ active: activeItem === '' }"
+    (click)="onItemClick('')"
+  >
+  Schedule Management
+  </li>
+  <li
+  [ngClass]="{ active: activeItem === '' }"
+  (click)="onItemClick('')"
+>
+  Profile
+</li>
+  </ul>
+</div>

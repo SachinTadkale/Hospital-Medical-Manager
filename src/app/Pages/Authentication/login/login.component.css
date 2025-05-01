@@ -1,0 +1,110 @@
+/* Full-screen background with overlay */
+.login-container {
+  font-family: "DM Sans", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(to right, #e0f7fa, #ffffff);
+  background: url("../../../../assets/Login Images/clipboard-stethoscope.jpg")
+    no-repeat center center/cover;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.7);
+  z-index: 1;
+}
+
+/* Login box styling */
+.login-box {
+  position: relative;
+  z-index: 2;
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 420px;
+
+  text-align: center;
+}
+
+/* Logo */
+.logo-container {
+  margin-bottom: 20px;
+}
+
+.logo-container img {
+  width: 80px;
+  height: 80px;
+}
+
+/* Header */
+.login-box h2 {
+  color: #006064;
+  margin-bottom: 25px;
+}
+
+/* Labels and inputs */
+.login-box label {
+  display: block;
+  text-align: left;
+  margin: 5px 10px;
+  color: #333;
+  font-weight: bold;
+}
+
+.login-box input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  transition: border 0.3s;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.login-box input:focus {
+  border-color: #00acc1;
+  outline: none;
+}
+
+/* Button */
+.login-box button {
+  width: 100%;
+  background-color: #00796b;
+  color: white;
+  border: none;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.login-box button:hover {
+  background-color: #004d40;
+}
+
+/* Sign up link */
+.signup-link {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #555;
+}
+
+.signup-link a {
+  color: #00796b;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.signup-link a:hover {
+  text-decoration: underline;
+}

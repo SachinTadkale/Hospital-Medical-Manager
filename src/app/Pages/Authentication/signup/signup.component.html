@@ -1,0 +1,43 @@
+<div class="signup-container">
+  <div class="signup-box">
+    <h2>Create an Account</h2>
+    
+    <form (ngSubmit)="signup()" #signupForm="ngForm">
+      <div class="form-group">
+        <label for="role">Select Your Role</label>
+        <select id="role" name="user_role" required [(ngModel)]="userData.user_role">
+          <option value="" selected disabled>Select Role</option>
+          <option value="doctor">Doctor</option>
+          <option value="medical">Medical</option>
+          <option value="receptionist">Receptionist</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="full_name" [(ngModel)]="userData.full_name" placeholder="Enter full name" required />
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" [(ngModel)]="userData.email" placeholder="Enter email" required />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" [(ngModel)]="userData.password" placeholder="Create password" required />
+      </div>
+
+      <div class="form-group">
+        <label for="confirm-password">Confirm Password</label>
+        <input type="password" id="confirm-password" name="confirmPassword" [(ngModel)]="confirmPassword" placeholder="Confirm password" required />
+      </div>
+
+      <div *ngIf="message" class="form-message">{{ message }}</div>
+
+      <button type="submit">Sign Up</button>
+
+      <p class="login-link">Already have an account? <a routerLink="/login">Login</a></p>
+    </form>
+  </div>
+</div>

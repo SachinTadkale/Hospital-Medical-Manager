@@ -1,0 +1,12 @@
+<div class="card-container">
+  <div class="testimonial-card" *ngFor="let review of reviews">
+    <div class="card-image">
+      <img [src]="review.ImageUrl" (error)="defaultImage($event)" />
+    </div>
+    <div class="card-content">
+      <div class="title">" {{ review.title }} "</div>
+      <div class="content">{{ review.content }}</div>
+      <div class="name">{{ review.name }}</div>
+    </div>
+  </div>
+</div>

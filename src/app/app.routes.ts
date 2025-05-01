@@ -1,3 +1,159 @@
 import { Routes } from '@angular/router';
 
-export const routes: Routes = [];
+export const routes: Routes = [
+  {
+    path: '',
+    loadComponent: () => {
+      return import(
+        './Pages/Landing/landing.component'
+      ).then((m) => m.LandingComponent);
+    },
+  },
+  {
+    path: 'signup',
+    pathMatch: 'full',
+    loadComponent: () => {
+      return import('./Pages/Authentication/signup/signup.component').then(
+        (m) => m.SignupComponent
+      );
+    },
+  },
+  {
+    path: 'login',
+    pathMatch: 'full',
+    loadComponent: () => {
+      return import('./Pages/Authentication/login/login.component').then(
+        (m) => m.LoginComponent
+      );
+    },
+  },
+
+  // ------------------------------- Dashboards ------------------------------------
+
+  // ------------------------------- Doctor Dashboard ------------------------------------
+
+  {
+    path: 'doctor-dashboard',
+    loadComponent: () => {
+      return import(
+        './Pages/Dashboard/doctor-dashboard/doctor-dashboard.component'
+      ).then((m) => m.DoctorDashboardComponent);
+    },
+    children: [
+      {
+        path: 'doctor-dashboard-home',
+        pathMatch: 'full',
+        loadComponent: () => {
+          return import(
+            './Pages/Dashboard/doctor-dashboard/Sidebar-Sections/doctor-dashboard-home/doctor-dashboard-home.component'
+          ).then((m) => m.DoctorDashboardHomeComponent);
+        },
+      },
+      {
+        path: 'patients',
+        pathMatch: 'full',
+        loadComponent: () => {
+          return import(
+            './Pages/Dashboard/doctor-dashboard/Sidebar-Sections/patients/patients.component'
+          ).then((m) => m.PatientsComponent);
+        },
+      },
+      {
+        path: 'patient-reports',
+        pathMatch: 'full',
+        loadComponent: () => {
+          return import(
+            './Pages/Dashboard/doctor-dashboard/Sidebar-Sections/patient-reports/patient-reports.component'
+          ).then((m) => m.PatientReportsComponent);
+        },
+      },
+    ],
+  },
+
+  // ------------------------------- Receptionist Dashboard ------------------------------------
+  {
+    path: 'receptionist-dashboard',
+    loadComponent: () => {
+      return import(
+        './Pages/Dashboard/receptionist-dashboard/receptionist-dashboard.component'
+      ).then((m) => m.ReceptionistDashboardComponent);
+    },
+    children: [
+      {
+        path: 'receptionist-dashboard-home',
+        pathMatch: 'full',
+        loadComponent: () => {
+          return import(
+            './Pages/Dashboard/receptionist-dashboard/Sidebar-Sections/receptionist-dashboard-home/receptionist-dashboard-home.component'
+          ).then((m) => m.ReceptionistDashboardHomeComponent);
+        },
+      },
+      {
+        path: 'billing-management',
+        pathMatch: 'full',
+        loadComponent: () => {
+          return import(
+            './Pages/Dashboard/receptionist-dashboard/Sidebar-Sections/billing-management/billing-management.component'
+          ).then((m) => m.BillingManagementComponent);
+        },
+      },
+      {
+        path: 'doctor-schedule',
+        pathMatch: 'full',
+        loadComponent: () => {
+          return import(
+            './Pages/Dashboard/receptionist-dashboard/Sidebar-Sections/doctor-schedule/doctor-schedule.component'
+          ).then((m) => m.DoctorScheduleComponent);
+        },
+      },
+      {
+        path: 'patient-details',
+        pathMatch: 'full',
+        loadComponent: () => {
+          return import(
+            './Pages/Dashboard/receptionist-dashboard/Sidebar-Sections/patient-details/patient-details.component'
+          ).then((m) => m.PatientDetailsComponent);
+        },
+      },
+    ],
+  },
+
+  // ------------------------------- Medical Dashboard ------------------------------------
+  {
+    path: 'medical-dashboard',
+    loadComponent: () => {
+      return import(
+        './Pages/Dashboard/medical-dashboard/medical-dashboard.component'
+      ).then((m) => m.MedicalDashboardComponent);
+    },
+    children: [
+      {
+        path: 'medical-dashboard-home',
+        pathMatch: 'full',
+        loadComponent: () => {
+          return import(
+            './Pages/Dashboard/medical-dashboard/Sidebar-Sections/medical-dashboard-home/medical-dashboard-home.component'
+          ).then((m) => m.MedicalDashboardHomeComponent);
+        },
+      },
+      {
+        path: 'medical-manage-products',
+        pathMatch: 'full',
+        loadComponent: () => {
+          return import(
+            './Pages/Dashboard/medical-dashboard/Sidebar-Sections/manage-products/manage-products.component'
+          ).then((m) => m.ManageProductsComponent);
+        },
+      },
+      {
+        path: 'medical-billing',
+        pathMatch: 'full',
+        loadComponent: () => {
+          return import(
+            './Pages/Dashboard/medical-dashboard/Sidebar-Sections/medical-billing/medical-billing.component'
+          ).then((m) => m.MedicalBillingComponent);
+        },
+      },
+    ],
+  },
+];

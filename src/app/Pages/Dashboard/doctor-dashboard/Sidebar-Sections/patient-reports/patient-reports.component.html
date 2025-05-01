@@ -1,0 +1,44 @@
+<!-- patient-reports.component.html -->
+
+<div class="patient-reports-container">
+  <h2>Patient Reports</h2>
+
+  <div class="filters">
+    <!-- Search Bar for filtering patient data -->
+    <input
+      type="text"
+      [(ngModel)]="searchTerm"
+      placeholder="Search by Name or Category"
+      (input)="applySearch()"
+    />
+  </div>
+
+  <table class="reports-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Patient Name</th>
+        <th>Age</th>
+        <th>Category</th>
+        <th>Disease</th>
+        <th>Description</th>
+        <th>Address</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let patient of filteredPatients; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ patient.patient_name }}</td>
+        <td>{{ patient.patient_age }}</td>
+        <td>{{ patient.patient_category }}</td>
+        <td>{{ patient.patient_disease }}</td>
+        <td>{{ patient.patient_description }}</td>
+        <td>{{ patient.patient_address }}</td>
+        <td>
+          <button (click)="viewReport(patient)">View Report</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

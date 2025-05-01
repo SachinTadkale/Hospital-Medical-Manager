@@ -1,0 +1,22 @@
+<div class="card-container">
+  <div class="our-team-card" *ngFor="let member of Members">
+    <div class="card-image">
+      <img [src]="member.ProfileImage"  
+           (error)="defaultImage($event)"
+      />
+    </div>
+    <div class="card-content">
+      <div class="name">{{ member.name }}</div>
+      <div class="role">{{ member.role }}</div>
+      <div class="content">
+        {{ member.description }}
+      </div>
+      <div class="social-links">
+        <div class="links facebook"><img src="../../../../assets/icons/Facebook.png"></div>
+        <div class="links twitter"><img src="../../../../assets/icons/Twitter.png"></div>
+        <div class="links instagram"><img src="../../../../assets/icons/Instagram.png"></div>
+        <div class="links LinkedIn"><img src="../../../../assets/icons/LinkedIn.png"></div>
+      </div>
+    </div>
+  </div>
+</div>
