@@ -1,1 +1,30 @@
-<p>doctor-schedule works!</p>
+<div class="schedule-container">
+  <h2>Doctor Availability</h2>
+  <div class="leave-details" *ngIf="schedules.length > 0">
+    <table>
+      <thead>
+        <tr>
+          <th>Sr No.</th>
+          <th>Name</th>
+          <th>Domain</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Alternate Doctor</th>
+          <th>Emergency Contact</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let schedule of schedules; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>Dr. {{ schedule.name }}</td>
+          <td>{{ schedule.domain }}</td>
+          <td>{{ schedule.startDate }}</td>
+          <td>{{ schedule.endDate }}</td>
+          <td>Dr. {{ schedule.alternate }}</td>
+          <td>{{ schedule.emergencyContact }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div *ngIf="schedules.length== 0" class="end-content">No Data Found...</div>
+</div>

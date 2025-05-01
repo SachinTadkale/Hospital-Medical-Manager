@@ -1,24 +1,43 @@
 <div class="landing-container">
   <app-landing-nav></app-landing-nav>
-  <div class="home-container">
-    <div class="head-container" id="home">
-      <div class="head-content">
-        <div class="head-title">
-          Providing Quality <span class="color-1">Healthcare</span> for a
-          <span class="color-2">Brighter</span> and
-          <span class="color-2">Healthy</span> Future
+  <swiper-container
+    class="mySwiper"
+    pagination="true"
+    paginationClickable="true"
+    centered-slides="true"
+    autoplay-delay="2500"
+    speed="1200"
+    >
+    <swiper-slide>
+      <div class="doctor-container content-container">
+        <div class="heading">
+          View, diagnose, and track your patients' history in one place with
+          smart filters and quick access.
         </div>
-        <div class="content">
-          At our hospital, we are dedicated to providing exceptional medical
-          care to our patients and their families. Our experienced team of
-          medical professionals, cutting-edge technology, and compassionate
-          approach make us a leader in the healthcare industry
+        <div class="img">
+          <img src="../../../assets/Landing/doctor.jpg" />
         </div>
       </div>
-      <div class="head-img">
-        <img src="../../../../assets/doctor-bg.png" id="doc-bg" width="400px" />
-        <img src="../../../../assets/doctor.png" id="doc-img" width="330px" />
+    </swiper-slide>
+    <swiper-slide>
+      <div class="medical-container content-container">
+        <div class="heading">
+          Track stock with expiry alerts and fulfill doctor prescriptions quickly.
+        </div>
+        <div class="img">
+          <img src="../../../assets/Landing/medical.jpg" alt="" />
+        </div>
       </div>
-    </div>
-  </div>
+    </swiper-slide>
+    <swiper-slide>
+      <div class="receptionist-container content-container">
+        <div class="heading">
+          Quickly handle appointments and track doctor schedules in real time.
+        </div>
+        <div class="img">
+          <img src="../../../assets/Landing/receptionist.jpg" alt="" />
+        </div>
+      </div>
+    </swiper-slide>
+  </swiper-container>
 </div>

@@ -19,16 +19,11 @@
       Patients Reports
     </li>
     <li
-    [ngClass]="{ active: activeItem === '' }"
-    (click)="onItemClick('')"
+    [ngClass]="{ active: activeItem === 'Schedule Management' }"
+    (click)="onItemClick('Schedule Management')"
   >
   Schedule Management
   </li>
-  <li
-  [ngClass]="{ active: activeItem === '' }"
-  (click)="onItemClick('')"
->
-  Profile
-</li>
+  
   </ul>
 </div>

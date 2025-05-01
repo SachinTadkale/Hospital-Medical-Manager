@@ -1,0 +1,104 @@
+<div class="schedule-container">
+  <h2>Schedule Management</h2>
+
+  <form [formGroup]="scheduleForm" (ngSubmit)="handleFormSubmit()">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" formControlName="name"/>
+      </div>
+
+      <div class="form-group">
+        <label for="domain">Domain</label>
+        <input type="text" id="domain" formControlName="domain" placeholder="Domain" />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="startDate">Start Date</label>
+        <input type="date" id="startDate" formControlName="startDate" />
+      </div>
+      <div class="form-group">
+        <label for="endDate">End Date</label>
+        <input type="date" id="endDate" formControlName="endDate" />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="alternate">Alternate Arrangement</label>
+        <input
+          type="text"
+          id="alternate"
+          formControlName="alternate"
+          placeholder="Alternate Doctor Name"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Emergency Contact</label>
+        <input
+          type="text"
+          id="phone"
+          formControlName="phone"
+          placeholder="Contact Number"
+        />
+        <div
+          class="error"
+          *ngIf="
+            scheduleForm.controls['phone'].touched &&
+            scheduleForm.controls['phone'].errors?.['pattern']
+          "
+        >
+          Invalid phone number format.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <button type="submit" id="btn-submit">
+        {{ selectedschedule ? 'Update' : 'Add' }} Schedule
+      </button>
+    </div>
+  </form>
+
+  <div class="leave-details" *ngIf="schedules.length > 0">
+    <table>
+      <thead>
+        <tr>
+          <th>Sr No.</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Alternate Doctor</th>
+          <th>Emergency Contact</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let schedule of schedules; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ schedule.startDate }}</td>
+          <td>{{ schedule.endDate }}</td>
+          <td>{{ schedule.alternate }}</td>
+          <td>{{ schedule.emergencyContact }}</td>
+          <td id="btn-container">
+            <button type="button" id="edit-btn" (click)="selectSchedule(schedule)">
+              <img
+                src="../../../../../../assets/icons/edit-black.png"
+                width="20px"
+                alt="Edit"
+              />
+            </button>
+            <button type="button" id="delete-btn" (click)="deleteSchedule(schedule)">
+              <img
+                src="../../../../../../assets/icons/delete-black.png"
+                width="20px"
+                alt="Delete"
+              />
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

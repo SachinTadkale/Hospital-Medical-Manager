@@ -6,9 +6,10 @@
   <div class="filters">
     <!-- Search Bar for filtering patient data -->
     <input
+    id="search-patient"
       type="text"
       [(ngModel)]="searchTerm"
-      placeholder="Search by Name or Category"
+      placeholder="Search by Name..."
       (input)="applySearch()"
     />
   </div>
@@ -16,14 +17,12 @@
   <table class="reports-table">
     <thead>
       <tr>
-        <th>#</th>
+        <th>Sr No</th>
         <th>Patient Name</th>
         <th>Age</th>
-        <th>Category</th>
         <th>Disease</th>
         <th>Description</th>
-        <th>Address</th>
-        <th>Action</th>
+        <!-- <th>Action</th> -->
       </tr>
     </thead>
     <tbody>
@@ -31,13 +30,11 @@
         <td>{{ i + 1 }}</td>
         <td>{{ patient.patient_name }}</td>
         <td>{{ patient.patient_age }}</td>
-        <td>{{ patient.patient_category }}</td>
         <td>{{ patient.patient_disease }}</td>
         <td>{{ patient.patient_description }}</td>
-        <td>{{ patient.patient_address }}</td>
-        <td>
+        <!-- <td>
           <button (click)="viewReport(patient)">View Report</button>
-        </td>
+        </td> -->
       </tr>
     </tbody>
   </table>

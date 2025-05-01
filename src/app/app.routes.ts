@@ -4,9 +4,9 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent: () => {
-      return import(
-        './Pages/Landing/landing.component'
-      ).then((m) => m.LandingComponent);
+      return import('./Pages/Landing/landing.component').then(
+        (m) => m.LandingComponent
+      );
     },
   },
   {
@@ -29,9 +29,7 @@ export const routes: Routes = [
   },
 
   // ------------------------------- Dashboards ------------------------------------
-
   // ------------------------------- Doctor Dashboard ------------------------------------
-
   {
     path: 'doctor-dashboard',
     loadComponent: () => {
@@ -41,8 +39,12 @@ export const routes: Routes = [
     },
     children: [
       {
-        path: 'doctor-dashboard-home',
+        path: '',
         pathMatch: 'full',
+        redirectTo: 'doctor-dashboard-home', // Redirect to the default page
+      },
+      {
+        path: 'doctor-dashboard-home',
         loadComponent: () => {
           return import(
             './Pages/Dashboard/doctor-dashboard/Sidebar-Sections/doctor-dashboard-home/doctor-dashboard-home.component'
@@ -51,7 +53,6 @@ export const routes: Routes = [
       },
       {
         path: 'patients',
-        pathMatch: 'full',
         loadComponent: () => {
           return import(
             './Pages/Dashboard/doctor-dashboard/Sidebar-Sections/patients/patients.component'
@@ -60,11 +61,18 @@ export const routes: Routes = [
       },
       {
         path: 'patient-reports',
-        pathMatch: 'full',
         loadComponent: () => {
           return import(
             './Pages/Dashboard/doctor-dashboard/Sidebar-Sections/patient-reports/patient-reports.component'
           ).then((m) => m.PatientReportsComponent);
+        },
+      },
+      {
+        path: 'schedule-management',
+        loadComponent: () => {
+          return import(
+            './Pages/Dashboard/doctor-dashboard/Sidebar-Sections/schedule-management/schedule-management.component'
+          ).then((m) => m.ScheduleManagementComponent);
         },
       },
     ],
@@ -79,6 +87,11 @@ export const routes: Routes = [
       ).then((m) => m.ReceptionistDashboardComponent);
     },
     children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'receptionist-dashboard-home', // Redirect to default home page
+      },
       {
         path: 'receptionist-dashboard-home',
         pathMatch: 'full',
@@ -127,6 +140,11 @@ export const routes: Routes = [
       ).then((m) => m.MedicalDashboardComponent);
     },
     children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'medical-dashboard-home', // Redirect to default home page
+      },
       {
         path: 'medical-dashboard-home',
         pathMatch: 'full',

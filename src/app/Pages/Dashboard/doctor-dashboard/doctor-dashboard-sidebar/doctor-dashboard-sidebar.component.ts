@@ -15,9 +15,10 @@ export class DoctorDashboardSidebarComponent {
   constructor(private router: Router) {}
 
   onItemClick(item: string): void {
+
     switch (item) {
       case 'Dashboard':
-        this.router.navigate(['doctor-dashboard/doctor-dashboard-home']);
+        this.router.navigate(['doctor-dashboard/']);
         this.activeItem = item; // Set the clicked item as active
         break;
       case 'Patients':
@@ -27,6 +28,10 @@ export class DoctorDashboardSidebarComponent {
       case 'Patients Reports':
         this.router.navigate(['doctor-dashboard/patient-reports']);
         this.activeItem = item; // Set the clicked item as active
+        break;
+      case 'Schedule Management':
+        this.router.navigate(['doctor-dashboard/schedule-management']);
+        this.activeItem = item;
         break;
       default:
         console.log('Unknown menu item clicked.');

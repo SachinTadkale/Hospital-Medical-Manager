@@ -1,0 +1,40 @@
+.schedule-container{
+  font-family: "DM Sans",sans-serif;
+  position: relative;
+  background-color: #ececec;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(35, 35, 35, 0.285);
+  top: 140px;
+  left: 400px;
+  width: 70vw;
+  min-height: 100%;
+}
+h2{
+  text-align: center;
+  padding: 30px 0;
+}
+.leave-details{
+  height: 100%;
+  padding: 20px;
+}
+table{
+  width: 100%;
+  border-radius: 7px;
+}
+table,tr,th,td{
+  border-collapse: collapse;
+  border: 1px solid #009ba3;
+  text-align: center;
+  font-size: 1em;
+  padding: 10px;
+}
+th{
+  background-color: #007E85;
+  color: #fff;
+}
+.end-content{
+  color: rgb(172, 172, 172);
+  text-align: center;
+  letter-spacing: 1.5px;
+  padding: 10px 0;
+}

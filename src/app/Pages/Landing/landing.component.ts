@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { LandingNavComponent } from '../../Components/navbars/landing-nav/landing-nav.component';
 
 @Component({
@@ -6,7 +6,8 @@ import { LandingNavComponent } from '../../Components/navbars/landing-nav/landin
   standalone: true,
   imports: [LandingNavComponent],
   templateUrl: './landing.component.html',
-  styleUrl: './landing.component.css'
+  styleUrl: './landing.component.css',
+  schemas:[CUSTOM_ELEMENTS_SCHEMA]
 })
 export class LandingComponent {
 

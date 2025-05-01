@@ -1,5 +1,6 @@
-<div class="patient-navbar">
+
 <div class="container">
+  <h2>Add Patient Details</h2>
   <form
     [formGroup]="patientForm"
     (ngSubmit)="onSubmit()"
@@ -28,11 +29,6 @@
       placeholder="Description"
       maxlength="200"
     ></textarea>
-    <textarea
-      formControlName="patient_address"
-      placeholder="Address"
-      maxlength="200"
-    ></textarea>
     <input type="file" (change)="onFileSelected($event)" />
 
     <button type="submit" *ngIf="!editingPatientId">Save</button>
@@ -49,10 +45,8 @@
         <th>Age</th>
         <th>Disease</th>
         <th>Description</th>
-        <th>Address</th>
         <th>Image</th>
         <th>Actions</th>
-        <th>ID</th>
       </tr>
     </thead>
     <tbody>
@@ -62,7 +56,6 @@
         <td>{{ patient.patient_age }}</td>
         <td>{{ patient.patient_disease }}</td>
         <td>{{ patient.patient_description }}</td>
-        <td>{{ patient.patient_address }}</td>
         <td>
           <img [src]="patient.imageUrl" class="patient-image" width="50" />
         </td>
@@ -82,7 +75,6 @@
             />
           </button>
         </td>
-        <td>{{ patient.patient_id }}</td>
       </tr>
     </tbody>
   </table>

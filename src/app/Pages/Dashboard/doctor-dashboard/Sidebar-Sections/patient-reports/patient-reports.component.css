@@ -1,16 +1,12 @@
-h1{
-  margin: 10em;
-}/* patient-reports.component.css */
-
 .patient-reports-container {
   width: 70%;
   position: absolute;
   left: 25%;
-  top: 140px;
+  top: 100px;
   margin: 20px auto;
   padding: 20px;
-  background: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background: #ececec;
+  box-shadow: 0 0 10px rgba(35, 35, 35, 0.285);
   border-radius: 8px;
 }
 
@@ -25,7 +21,11 @@ h2 {
   justify-content: flex-end;
   margin-bottom: 15px;
 }
-
+.filters input{
+  font-family: "DM Sans",sans-serif;
+  background-color: transparent;
+  border: 1px solid #009ca4;
+}
 input {
   padding: 10px;
   border-radius: 5px;
@@ -42,7 +42,7 @@ input {
 
 th,
 td {
-  padding: 12px;
+  padding: 12px 0 ;
   border: 1px solid #ddd;
   text-align: center;
 }
@@ -50,34 +50,4 @@ td {
 th {
   background-color: #009ca4;
   color: white;
-}
-
-button {
-  padding: 8px 16px;
-  background-color: #009ca4;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-}
-
-button:hover {
-  background-color: #007f8f;
-}
-
-/* Responsiveness */
-@media screen and (max-width: 768px) {
-  .patient-reports-container {
-    width: 90%;
-  }
-
-  .reports-table th,
-  .reports-table td {
-    padding: 8px;
-  }
-
-  input {
-    width: 100%;
-  }
 }
