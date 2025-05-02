@@ -27,7 +27,7 @@ swiper-slide img {
   margin: 30px;
   border-radius: 20px;
   height: 80vh;
-  width: 80vw;
+  width: 90vw;
   overflow: hidden;
   color: #1F1F1F;
   text-transform: capitalize;
@@ -39,11 +39,13 @@ swiper-slide img {
   padding: 20px;
 }
 .doctor-container {
-  background-color: #CADFF4;
+  background-color: #61aaf2;
+
 }
+
 .medical-container{
-  background-color: #DBECFE;
+  background-color: #6cae9b;
 }
 .receptionist-container{
-  background-color: #D6F9FB;
+  background-color: #2ed6df;
 }
