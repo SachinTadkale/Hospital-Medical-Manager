@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { PatientService } from '../../../../../Services/Patient/patient.service';
+
 @Component({
   selector: 'app-patients',
   standalone: true,
@@ -22,10 +23,9 @@ export class PatientsComponent {
   filteredPatients: Patient[] = [];
   editingPatientId: number | null = null;
   searchQuery: string = '';
-
   constructor(
     private fb: FormBuilder,
-    private patientService: PatientService
+    private patientService: PatientService,
   ) {}
 
   ngOnInit(): void {
@@ -45,42 +45,12 @@ export class PatientsComponent {
     this.patients = this.patientService.getAllPatients();
     this.filteredPatients = [...this.patients];
   }
+
   getNextPatientId(): number {
     const patients = this.patientService.getAllPatients();
     if (patients.length === 0) return 1;
     const maxId = Math.max(...patients.map((p) => +p.patient_id));
     return maxId + 1;
-  }
-  onSubmit(): void {
-    if (this.patientForm.invalid) return;
-
-    const newPatient: Patient = {
-      ...this.patientForm.value,
-      patient_id: this.getNextPatientId().toString(),
-    };
-    alert("Patient Added Successfully")
-    this.patientService.addPatient(newPatient);
-    this.patientForm.reset();
-    this.loadPatients();
-  }
-
-  editPatient(patient: Patient): void {
-    this.editingPatientId = patient.patient_id;
-    this.patientForm.patchValue({ ...patient });
-  }
-
-  updatePatient(): void {
-    if (!this.editingPatientId) return;
-
-    const updatedPatient: Patient = {
-      ...this.patientForm.value,
-      patient_id: this.editingPatientId,
-    };
-
-    this.patientService.updatePatient(updatedPatient);
-    this.editingPatientId = null;
-    this.patientForm.reset();
-    this.loadPatients();
   }
 
   deletePatient(id: number): void {
@@ -88,23 +58,50 @@ export class PatientsComponent {
     this.loadPatients();
   }
 
-  onFileSelected(event: any): void {
-    const file = event.target.files[0];
-    if (file) {
+  // ✅ Updated with file type and size check
+  onFileSelected(event: Event, patientId: number): void {
+    const input = event.target as HTMLInputElement;
+
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png'];
+      const maxSizeInMB = 2; // 2MB limit
+      const maxSizeBytes = maxSizeInMB * 1024 * 1024;
+
+      // Validate type
+      if (!allowedTypes.includes(file.type)) {
+        alert('❌ Only PDF, JPEG, and PNG files are allowed.');
+        return;
+      }
+
+      // Validate size
+      if (file.size > maxSizeBytes) {
+        alert(`❌ File is too large. Max allowed size is ${maxSizeInMB}MB.`);
+        return;
+      }
+
       const reader = new FileReader();
+
       reader.onload = () => {
-        this.patientForm.patchValue({ imageUrl: reader.result as string });
+        const fileData = reader.result as string;
+        const storageKey = `patient_file_${patientId}`;
+
+        try {
+          localStorage.setItem(storageKey, fileData);
+          alert(`✅ File uploaded successfully for patient ID ${patientId}`);
+          console.log('File Data:', fileData);
+        } catch (error) {
+          alert('❌ Failed to upload file. Storage limit exceeded.');
+          console.error('Storage Error:', error);
+        }
       };
-      reader.readAsDataURL(file);
+
+      reader.readAsDataURL(file); // Convert to base64
     }
   }
 
-  filterPatients(): void {
-    const query = this.searchQuery.toLowerCase();
-    this.filteredPatients = this.patients.filter(
-      (patient) =>
-        patient.patient_name.toLowerCase().includes(query) ||
-        patient.patient_disease.toLowerCase().includes(query)
-    );
+  getPatientFile(patientId: number): string | null {
+
+    return localStorage.getItem(`patient_file_${patientId}`);
   }
 }

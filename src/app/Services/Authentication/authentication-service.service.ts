@@ -4,8 +4,7 @@ import { userData } from '../../model/user-data';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthenticationService{
- 
+export class AuthenticationService {
   private usersKey = 'users';
   private currentUserKey = 'currentUser';
 
@@ -15,7 +14,7 @@ export class AuthenticationService{
     const users = this.getAllUsers();
 
     // Check if user already exists
-    const userExists = users.some(user => user.email === userData.email);
+    const userExists = users.some((user) => user.email === userData.email);
     if (userExists) {
       return 'User already exists';
     }
@@ -27,7 +26,9 @@ export class AuthenticationService{
 
   login(email: string, password: string): string {
     const users = this.getAllUsers();
-    const matchedUser = users.find(user => user.email === email && user.password === password);
+    const matchedUser = users.find(
+      (user) => user.email === email && user.password === password
+    );
 
     if (matchedUser) {
       localStorage.setItem(this.currentUserKey, JSON.stringify(matchedUser));
@@ -49,5 +50,9 @@ export class AuthenticationService{
   private getAllUsers(): userData[] {
     const users = localStorage.getItem(this.usersKey);
     return users ? JSON.parse(users) : [];
+  }
+  getAllDoctors():userData[] {
+    const users = this.getAllUsers();
+    return users.filter(user => user.user_role == 'doctor')
   }
 }

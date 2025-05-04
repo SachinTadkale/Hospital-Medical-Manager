@@ -1,1 +1,81 @@
-<p>patient-details works!</p>
+
+<div class="container">
+  <h2>Add Patient Details</h2>
+  <form
+    [formGroup]="patientForm"
+    (ngSubmit)="onSubmit()"
+    enctype="multipart/form-data"
+  >
+    <input
+      type="text"
+      formControlName="patient_name"
+      placeholder="Patient Name"
+      required
+    />
+    <input
+      type="number"
+      formControlName="patient_age"
+      placeholder="Age"
+      required
+    />
+    <input
+      type="text"
+      formControlName="patient_disease"
+      placeholder="Disease"
+      required
+    />
+    <textarea
+      formControlName="patient_description"
+      placeholder="Description"
+      maxlength="200"
+    ></textarea>
+    <input type="file" (change)="onFileSelected($event)" />
+
+    <button type="submit" *ngIf="!editingPatientId">Save</button>
+    <button type="button" *ngIf="editingPatientId" (click)="updatePatient()">
+      Update
+    </button>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Sr.No</th>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Disease</th>
+        <th>Description</th>
+        <th>Image</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let patient of filteredPatients; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ patient.patient_name }}</td>
+        <td>{{ patient.patient_age }}</td>
+        <td>{{ patient.patient_disease }}</td>
+        <td>{{ patient.patient_description }}</td>
+        <td>
+          <img [src]="patient.imageUrl" class="patient-image" width="50" />
+        </td>
+        <td id="btn-container">
+          <button (click)="editPatient(patient)">
+            <img
+              src="../../../../../../assets/icons/edit-black.png"
+              alt=""
+              width="20px"
+            />
+          </button>
+          <button (click)="deletePatient(patient.patient_id)">
+            <img
+              src="../../../../../../assets/icons/delete-black.png"
+              alt=""
+              width="20px"
+            />
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

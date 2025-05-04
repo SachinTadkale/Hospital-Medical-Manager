@@ -38,3 +38,15 @@ th{
   letter-spacing: 1.5px;
   padding: 10px 0;
 }
+.available,.unavailable{
+  padding: 5px 10px;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 7px;
+}
+.available {
+  background-color: green;
+}
+.unavailable {
+  background-color: red;
+}

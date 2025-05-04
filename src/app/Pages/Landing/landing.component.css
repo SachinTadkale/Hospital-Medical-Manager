@@ -13,7 +13,7 @@ swiper-slide {
   font-size: 24px;
 }
 swiper-slide img {
-  /* width: 40vw; */
+  /* width: 45vw; */
   height: 82vh;
 }
 .img{
@@ -37,6 +37,7 @@ swiper-slide img {
 .heading {
   text-align: center;
   padding: 20px;
+  width: 60%;
 }
 .doctor-container {
   background-color: #61aaf2;

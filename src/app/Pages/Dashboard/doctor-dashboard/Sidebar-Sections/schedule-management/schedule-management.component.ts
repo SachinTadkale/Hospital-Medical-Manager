@@ -29,14 +29,15 @@ export class ScheduleManagementComponent implements OnInit {
   ) {}
 
   name = this.AuthService.getCurrentUser()?.full_name;
+
   ngOnInit(): void {
     const phoneRegex = /^(?:\+91[-\s]?)?[6-9]\d{9}$/;
     this.scheduleForm = this.fb.group({
-      name:[this.name,Validators.required],
-      domain:['',Validators.required],
+      name: [this.name, Validators.required],
+      domain: ['', Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
-      alternate: ['', Validators.required],
+      alternate: ['Dr. ', Validators.required],
       phone: ['+91 ', [Validators.required, Validators.pattern(phoneRegex)]],
     });
 
@@ -44,59 +45,76 @@ export class ScheduleManagementComponent implements OnInit {
   }
 
   loadSchedules(): void {
-    this.schedules = this.scheduleService.getAllSchedule();
+    this.schedules = this.scheduleService.getSchedulesByDoctor(this.name!);
   }
 
   handleFormSubmit(): void {
-    if (this.scheduleForm.invalid) return;
+    if (!this.scheduleForm.valid) return;
 
-    const formValue = this.scheduleForm.value;
-    const schedule: scheduleData = {
-      scheduleId: this.selectedschedule?.scheduleId || Date.now(),
-      name: formValue.name,
-      domain: formValue.domain,
-      startDate: formValue.startDate,
-      endDate: formValue.endDate,
-      alternate: formValue.alternate,
-      emergencyContact: formValue.phone
+    const formData = this.scheduleForm.value;
+    const doctorId = formData.name;
+
+    const newSchedule: scheduleData = {
+      scheduleId: this.selectedschedule?.scheduleId || new Date().getTime(),
+      name: formData.name,
+      domain: formData.domain,
+      startDate: formData.startDate,
+      endDate: formData.endDate,
+      alternate: formData.alternate,
+      emergencyContact: formData.phone,
     };
 
-    if (this.selectedschedule) {
-      this.updateSchedule(schedule);
-    } else {
-      this.addSchedule(schedule);
+    const existingSchedules = this.scheduleService.getSchedulesByDoctor(doctorId);
+
+    // Check if new leave overlaps with any existing (only if it's a new one or changed date)
+    const isOverlap = existingSchedules.some(s => {
+      if (this.selectedschedule && s.scheduleId === this.selectedschedule.scheduleId) return false;
+      const start1 = new Date(s.startDate);
+      const end1 = new Date(s.endDate);
+      const start2 = new Date(newSchedule.startDate);
+      const end2 = new Date(newSchedule.endDate);
+      return start1 <= end2 && start2 <= end1;
+    });
+
+    if (isOverlap) {
+      alert('This doctor already has a leave scheduled for this period.');
+      return;
     }
 
+    if (this.selectedschedule) {
+      this.scheduleService.updateSchedule(newSchedule);
+      alert('Schedule updated successfully!');
+    } else {
+      this.scheduleService.addSchedule(newSchedule);
+      alert('Doctor leave saved locally.');
+    }
+
+    this.loadSchedules();
     this.scheduleForm.reset();
-    this.clearSelected();
-  }
-
-  addSchedule(newSchedule: scheduleData): void {
-    this.scheduleService.addSchedule(newSchedule);
-    this.loadSchedules();
-  }
-
-  updateSchedule(updateSchedule: scheduleData): void {
-    this.scheduleService.updateSchedule(updateSchedule);
-    this.loadSchedules();
-  }
-
-  deleteSchedule(schedule: scheduleData): void {
-    this.scheduleService.deleteSchedule(schedule);
-    this.loadSchedules();
+    this.scheduleForm.patchValue({ name: this.name });
+    this.selectedschedule = undefined;
   }
 
   selectSchedule(schedule: scheduleData): void {
     this.selectedschedule = { ...schedule };
     this.scheduleForm.patchValue({
+      domain: schedule.domain || '',
       startDate: schedule.startDate,
       endDate: schedule.endDate,
       alternate: schedule.alternate,
-      phone: schedule.emergencyContact
+      phone: schedule.emergencyContact,
     });
+  }
+
+  deleteSchedule(schedule: scheduleData): void {
+    this.scheduleService.deleteSchedule(schedule);
+    alert('Schedule deleted successfully!');
+    this.loadSchedules();
   }
 
   clearSelected(): void {
     this.selectedschedule = undefined;
+    this.scheduleForm.reset();
+    this.scheduleForm.patchValue({ name: this.name });
   }
 }

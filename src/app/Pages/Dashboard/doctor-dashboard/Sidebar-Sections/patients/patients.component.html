@@ -1,41 +1,5 @@
-
 <div class="container">
-  <h2>Add Patient Details</h2>
-  <form
-    [formGroup]="patientForm"
-    (ngSubmit)="onSubmit()"
-    enctype="multipart/form-data"
-  >
-    <input
-      type="text"
-      formControlName="patient_name"
-      placeholder="Patient Name"
-      required
-    />
-    <input
-      type="number"
-      formControlName="patient_age"
-      placeholder="Age"
-      required
-    />
-    <input
-      type="text"
-      formControlName="patient_disease"
-      placeholder="Disease"
-      required
-    />
-    <textarea
-      formControlName="patient_description"
-      placeholder="Description"
-      maxlength="200"
-    ></textarea>
-    <input type="file" (change)="onFileSelected($event)" />
-
-    <button type="submit" *ngIf="!editingPatientId">Save</button>
-    <button type="button" *ngIf="editingPatientId" (click)="updatePatient()">
-      Update
-    </button>
-  </form>
+  <h2>Upload Patient Documents</h2>
 
   <table>
     <thead>
@@ -46,7 +10,8 @@
         <th>Disease</th>
         <th>Description</th>
         <th>Image</th>
-        <th>Actions</th>
+        <th>Action</th>
+        <!-- <th>Download</th> -->
       </tr>
     </thead>
     <tbody>
@@ -60,20 +25,34 @@
           <img [src]="patient.imageUrl" class="patient-image" width="50" />
         </td>
         <td id="btn-container">
-          <button (click)="editPatient(patient)">
+          <!-- Hidden file input -->
+          <input
+            type="file"
+            #fileInput
+            style="display: none"
+            (change)="onFileSelected($event, patient.patient_id)"
+            accept=".pdf, .jpeg, .jpg, .png"
+          />
+
+          <!-- Visible upload button -->
+          <button (click)="fileInput.click()">
             <img
-              src="../../../../../../assets/icons/edit-black.png"
-              alt=""
+              src="../../../../../../assets/icons/upload.png"
+              alt="Upload"
               width="20px"
+              title="Upload Documents"
             />
           </button>
-          <button (click)="deletePatient(patient.patient_id)">
+          <a
+            [href]="getPatientFile(patient.patient_id)"
+            download={{patient.patient_name}}
+          >
             <img
-              src="../../../../../../assets/icons/delete-black.png"
-              alt=""
-              width="20px"
+              src="../../../../../../assets/icons/download.png"
+              width="21px"
+              title="Download Documents"
             />
-          </button>
+          </a>
         </td>
       </tr>
     </tbody>

@@ -5,34 +5,49 @@ import { scheduleData } from '../../model/schedule-data';
   providedIn: 'root',
 })
 export class ScheduleService {
-  private localeStorageKey = 'Schedule';
-
-  getAllSchedule(): scheduleData[] {
-    const data = localStorage.getItem(this.localeStorageKey);
+  getSchedulesByDoctor(doctorName: string): scheduleData[] {
+    const data = localStorage.getItem(`doctor_schedule_${doctorName}`);
     return data ? JSON.parse(data) : [];
   }
-  saveSchedule(scheduleDetails: scheduleData[]) {
-    localStorage.setItem(
-      this.localeStorageKey,
-      JSON.stringify(scheduleDetails)
-    );
+
+  saveSchedulesByDoctor(doctorName: string, schedules: scheduleData[]): void {
+    localStorage.setItem(`doctor_schedule_${doctorName}`, JSON.stringify(schedules));
   }
 
-  addSchedule(schedule: scheduleData) {
-    const schedules = this.getAllSchedule();
+  getAllSchedule(): scheduleData[] {
+    const allSchedules: scheduleData[] = [];
+
+    // Loop through all keys to collect all doctor schedules
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith('doctor_schedule_')) {
+        const schedules = JSON.parse(localStorage.getItem(key) || '[]');
+        allSchedules.push(...schedules);
+      }
+    }
+
+    return allSchedules;
+  }
+
+  addSchedule(schedule: scheduleData): void {
+    const schedules = this.getSchedulesByDoctor(schedule.name);
     schedules.push(schedule);
-    this.saveSchedule(schedules);
+    this.saveSchedulesByDoctor(schedule.name, schedules);
   }
-  updateSchedule(updateSchedule: scheduleData) {
-    const schedules = this.getAllSchedule().map((s) =>
-      s.scheduleId === updateSchedule.scheduleId ? updateSchedule : s
-    );
-    this.saveSchedule(schedules);
+
+  updateSchedule(updatedSchedule: scheduleData): void {
+    const schedules = this.getSchedulesByDoctor(updatedSchedule.name);
+    const index = schedules.findIndex(s => s.scheduleId === updatedSchedule.scheduleId);
+
+    if (index !== -1) {
+      schedules[index] = updatedSchedule;
+      this.saveSchedulesByDoctor(updatedSchedule.name, schedules);
+    }
   }
-  deleteSchedule(deleteSchedule: scheduleData) {
-    const schedules = this.getAllSchedule().filter(
-      (s) => s.scheduleId !== deleteSchedule.scheduleId
-    );
-    this.saveSchedule(schedules);
+
+  deleteSchedule(toDelete: scheduleData): void {
+    const schedules = this.getSchedulesByDoctor(toDelete.name);
+    const updated = schedules.filter(s => s.scheduleId !== toDelete.scheduleId);
+    this.saveSchedulesByDoctor(toDelete.name, updated);
   }
 }
