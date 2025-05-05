@@ -1,11 +1,6 @@
-
 <div class="container">
   <h2>Add Patient Details</h2>
-  <form
-    [formGroup]="patientForm"
-    (ngSubmit)="onSubmit()"
-    enctype="multipart/form-data"
-  >
+  <form [formGroup]="patientForm" (ngSubmit)="onSubmit()">
     <input
       type="text"
       formControlName="patient_name"
@@ -13,23 +8,21 @@
       required
     />
     <input
+      type="email"
+      formControlName="patient_email"
+      placeholder="Patient Email"
+    />
+    <input
       type="number"
-      formControlName="patient_age"
-      placeholder="Age"
+      formControlName="patient_contact_no"
+      placeholder="Contact Number"
       required
     />
     <input
       type="text"
-      formControlName="patient_disease"
-      placeholder="Disease"
-      required
+      formControlName="patient_address"
+      placeholder="Patient Address"
     />
-    <textarea
-      formControlName="patient_description"
-      placeholder="Description"
-      maxlength="200"
-    ></textarea>
-    <input type="file" (change)="onFileSelected($event)" />
 
     <button type="submit" *ngIf="!editingPatientId">Save</button>
     <button type="button" *ngIf="editingPatientId" (click)="updatePatient()">
@@ -42,10 +35,9 @@
       <tr>
         <th>Sr.No</th>
         <th>Name</th>
-        <th>Age</th>
-        <th>Disease</th>
-        <th>Description</th>
-        <th>Image</th>
+        <th>Email</th>
+        <th>Contact Number</th>
+        <th>Address</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -53,12 +45,12 @@
       <tr *ngFor="let patient of filteredPatients; let i = index">
         <td>{{ i + 1 }}</td>
         <td>{{ patient.patient_name }}</td>
-        <td>{{ patient.patient_age }}</td>
-        <td>{{ patient.patient_disease }}</td>
-        <td>{{ patient.patient_description }}</td>
-        <td>
+        <td>{{patient.patient_email}}</td>
+        <td>{{ patient.patient_contact_no }}</td>
+        <td>{{ patient.patient_address   }}</td>
+        <!-- <td>
           <img [src]="patient.imageUrl" class="patient-image" width="50" />
-        </td>
+        </td> -->
         <td id="btn-container">
           <button (click)="editPatient(patient)">
             <img

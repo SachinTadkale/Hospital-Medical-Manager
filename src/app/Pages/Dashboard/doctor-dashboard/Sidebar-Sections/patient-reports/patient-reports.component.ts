@@ -1,91 +1,168 @@
 // patient-reports.component.ts
 
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';  // Needed for ngModel
-import { FormsModule } from '@angular/forms';   // Needed for ngModel
-import { jsPDF } from 'jspdf'; // Import jsPDF
-
-interface Patient {
-  patient_name: string;
-  patient_age: number;
-  patient_category: string;
-  patient_disease: string;
-  patient_description: string;
-  patient_address: string;
-}
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common'; // Needed for ngModel
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  Validators,
+} from '@angular/forms'; // Needed for ngModel
+import { PatientService } from '../../../../../Services/Patient/patient.service';
+import { Patient } from '../../../../../model/patient-data';
 
 @Component({
   selector: 'app-patient-reports',
   standalone: true,
-  imports: [CommonModule, FormsModule],  // Import the necessary modules for ngModel
+  imports: [CommonModule, FormsModule], // Import the necessary modules for ngModel
   templateUrl: './patient-reports.component.html',
-  styleUrls: ['./patient-reports.component.css']
+  styleUrls: ['./patient-reports.component.css'],
 })
-export class PatientReportsComponent {
-  // Assume this data is already populated or passed from the form module
-  patients: Patient[] = JSON.parse(localStorage.getItem('patients') || '[]');
-  
-  // To store filtered patients based on search
-  filteredPatients: Patient[] = [...this.patients];
-
-  // Search term for filtering patients
-  searchTerm: string = '';
-
-  ngOnInit() {
-    // Initially set the filteredPatients to all patients
+export class PatientReportsComponent implements OnInit {
+  patientForm!: FormGroup;
+  patients: Patient[] = [];
+  filteredPatients: Patient[] = [];
+  editingPatientId: number | null = null;
+  searchQuery: string = '';
+  constructor(
+    private fb: FormBuilder,
+    private patientService: PatientService
+  ) {}
+  ngOnInit(): void {
+    this.patientForm = this.fb.group({
+      patient_name: ['', Validators.required],
+      patient_age: ['', Validators.required],
+      patient_disease: ['', Validators.required],
+      patient_description: [''],
+      patient_address: [''],
+      imageUrl: [''],
+    });
+    this.loadPatients();
+  }
+  loadPatients(): void {
+    this.patients = this.patientService.getAllPatients();
     this.filteredPatients = [...this.patients];
   }
 
-  // Method to filter the patients based on search term
-  applySearch() {
-    this.filteredPatients = this.patients.filter(patient =>
-      patient.patient_name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      patient.patient_category.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      patient.patient_disease.toLowerCase().includes(this.searchTerm.toLowerCase())
-    );
+  getNextPatientId(): number {
+    const patients = this.patientService.getAllPatients();
+    if (patients.length === 0) return 1;
+    const maxId = Math.max(...patients.map((p) => +p.patient_id));
+    return maxId + 1;
   }
 
-  // Method to view detailed report of a patient
-  viewReport(patient: Patient) {
-    console.log('Viewing report for:', patient);
+  deletePatient(id: number): void {
+    this.patientService.deletePatient(id);
+    this.loadPatients();
+  }
 
-    // Create a new jsPDF instance
-    const doc = new jsPDF();
+  // ✅ Updated with file type and size check
+  onFileSelected(event: Event, patientId: number): void {
+    const input = event.target as HTMLInputElement;
 
-    // Add title to the PDF
-    doc.setFontSize(18);
-    doc.text('Patient Report', 14, 20);
-    
-    // Add patient details to the PDF
-    doc.setFontSize(12);
-    doc.text(`Patient Name: ${patient.patient_name}`, 14, 30);
-    doc.text(`Age: ${patient.patient_age}`, 14, 40);
-    doc.text(`Category: ${patient.patient_category}`, 14, 50);
-    doc.text(`Disease: ${patient.patient_disease}`, 14, 60);
-    doc.text(`Description: ${patient.patient_description}`, 14, 70);
-    doc.text(`Address: ${patient.patient_address}`, 14, 80);
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png'];
+      const maxSizeInMB = 2; // 2MB limit
+      const maxSizeBytes = maxSizeInMB * 1024 * 1024;
 
-    // Generate PDF and get it as a base64-encoded string
-    const pdfData = doc.output('datauristring');
+      // Validate type
+      if (!allowedTypes.includes(file.type)) {
+        alert('❌ Only PDF, JPEG, and PNG files are allowed.');
+        return;
+      }
 
-    // Create an iframe or new window to preview the PDF
-    const previewWindow: Window | null = window.open('', '_blank');
-    
-    if (previewWindow) {
-      const body = previewWindow.document.body;
-      body.style.margin = '0';
+      // Validate size
+      if (file.size > maxSizeBytes) {
+        alert(`❌ File is too large. Max allowed size is ${maxSizeInMB}MB.`);
+        return;
+      }
 
-      // Create an iframe element
-      const iframe = previewWindow.document.createElement('iframe');
-      iframe.setAttribute('src', pdfData);
-      iframe.setAttribute('width', '100%');
-      iframe.setAttribute('height', '100%');
-      iframe.style.border = 'none';
+      const reader = new FileReader();
 
-      // Append the iframe to the body of the preview window
-      body.appendChild(iframe);
-    } else {
-      console.error('Failed to open the preview window.');
+      reader.onload = () => {
+        const fileData = reader.result as string;
+        const storageKey = `patient_file_${patientId}`;
+
+        try {
+          localStorage.setItem(storageKey, fileData);
+          alert(`✅ File uploaded successfully for patient ID ${patientId}`);
+          console.log('File Data:', fileData);
+        } catch (error) {
+          alert('❌ Failed to upload file. Storage limit exceeded.');
+          console.error('Storage Error:', error);
+        }
+      };
+
+      reader.readAsDataURL(file); // Convert to base64
     }
   }
+
+  getPatientFile(patientId: number): string | null {
+    return localStorage.getItem(`patient_file_${patientId}`);
+  }
+
+  downloadFile(patientId: number, patientName: string): void {
+    const fileData = this.getPatientFile(patientId);
+
+    if (!fileData) {
+      alert(`❌ No file found for patient ID ${patientId}`);
+      return;
+    }
+
+    const link = document.createElement('a');
+    link.href = fileData;
+    link.download = patientName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+  viewFile(patientId: number): void {
+    const fileData = this.getPatientFile(patientId);
+  
+    if (!fileData) {
+      alert(`❌ No file found for patient ID ${patientId}`);
+      return;
+    }
+  
+    const fileType = fileData.split(';')[0];
+  
+    const newTab = window.open();
+    if (newTab) {
+      newTab.document.write(`
+        <html>
+          <head>
+            <title>View Document</title>
+            <style>
+              body {
+                margin: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                background: #f5f5f5;
+              }
+              img, embed {
+                width: 50vw;
+                height: 95vh;
+                box-shadow: 0 0 10px rgba(0,0,0,0.2);
+                border-radius: 8px;
+              }
+            </style>
+          </head>
+          <body>
+            ${
+              fileType.includes('image')
+                ? `<img src="${fileData}" alt="Document" />`
+                : `<embed src="${fileData}" type="application/pdf" />`
+            }
+          </body>
+        </html>
+      `);
+      newTab.document.close();
+    } else {
+      alert('❌ Failed to open new tab. Please allow pop-ups.');
+    }
+  }
+  
 }

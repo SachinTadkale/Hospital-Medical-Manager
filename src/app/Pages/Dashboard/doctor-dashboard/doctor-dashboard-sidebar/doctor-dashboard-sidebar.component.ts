@@ -21,10 +21,6 @@ export class DoctorDashboardSidebarComponent {
         this.router.navigate(['doctor-dashboard/']);
         this.activeItem = item; // Set the clicked item as active
         break;
-      case 'Patients':
-        this.router.navigate(['doctor-dashboard/patients']);
-        this.activeItem = item; // Set the clicked item as active
-        break;
       case 'Patients Reports':
         this.router.navigate(['doctor-dashboard/patient-reports']);
         this.activeItem = item; // Set the clicked item as active

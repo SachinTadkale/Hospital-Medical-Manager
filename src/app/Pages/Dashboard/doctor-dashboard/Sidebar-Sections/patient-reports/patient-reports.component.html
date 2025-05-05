@@ -5,13 +5,13 @@
 
   <div class="filters">
     <!-- Search Bar for filtering patient data -->
-    <input
+    <!-- <input
     id="search-patient"
       type="text"
       [(ngModel)]="searchTerm"
       placeholder="Search by Name..."
       (input)="applySearch()"
-    />
+    /> -->
   </div>
 
   <table class="reports-table">
@@ -22,19 +22,57 @@
         <th>Age</th>
         <th>Disease</th>
         <th>Description</th>
-        <!-- <th>Action</th> -->
+        <th>Imagex</th>
+        <th>Action</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let patient of filteredPatients; let i = index">
+      <tr *ngFor="let patient of patients; let i = index">
         <td>{{ i + 1 }}</td>
         <td>{{ patient.patient_name }}</td>
         <td>{{ patient.patient_age }}</td>
         <td>{{ patient.patient_disease }}</td>
         <td>{{ patient.patient_description }}</td>
-        <!-- <td>
-          <button (click)="viewReport(patient)">View Report</button>
-        </td> -->
+        <td>
+          <img [src]="patient.imageUrl" class="patient-image" width="50" />
+        </td>
+        <td id="btn-container">
+          <!-- Hidden file input -->
+          <input
+            type="file"
+            #fileInput
+            style="display: none"
+            (change)="onFileSelected($event, patient.patient_id)"
+            accept=".pdf, .jpeg, .jpg, .png"
+          />
+
+          <!-- Visible upload button -->
+          <button (click)="fileInput.click()">
+            <img
+              src="../../../../../../assets/icons/upload.png"
+              alt="Upload"
+              width="20px"
+              title="Upload Documents"
+            />
+          </button>
+          <button
+            (click)="downloadFile(patient.patient_id, patient.patient_name)"
+            title="Download Documents"
+          >
+            <img
+              src="../../../../../../assets/icons/download.png"
+              width="21px"
+              alt="Download"
+            />
+          </button>
+          <button (click)="viewFile(patient.patient_id)" title="View Document">
+            <img
+              src="../../../../../../assets/icons/view.png"
+              width="21px"
+              alt="View"
+            />
+          </button>
+        </td>
       </tr>
     </tbody>
   </table>

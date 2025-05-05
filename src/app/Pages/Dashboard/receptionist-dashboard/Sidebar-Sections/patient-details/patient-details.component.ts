@@ -26,10 +26,11 @@ export class PatientDetailsComponent implements OnInit{
   ngOnInit(): void {
     this.patientForm = this.fb.group({
       patient_name: ['', Validators.required],
-      patient_age: ['', Validators.required],
-      patient_disease: ['', Validators.required],
-      patient_description: [''],
+      patient_email: [''],
+      // patient_email: ['none'],
+      patient_contact_no: ['', Validators.required],
       patient_address: [''],
+      // patient_address: ['none'],
       imageUrl: [''],
     });
 
@@ -98,8 +99,7 @@ export class PatientDetailsComponent implements OnInit{
     const query = this.searchQuery.toLowerCase();
     this.filteredPatients = this.patients.filter(
       (patient) =>
-        patient.patient_name.toLowerCase().includes(query) ||
-        patient.patient_disease.toLowerCase().includes(query)
+        patient.patient_name.toLowerCase().includes(query)
     );
   }
 }

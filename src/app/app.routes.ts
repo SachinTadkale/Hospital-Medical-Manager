@@ -52,14 +52,6 @@ export const routes: Routes = [
         },
       },
       {
-        path: 'patients',
-        loadComponent: () => {
-          return import(
-            './Pages/Dashboard/doctor-dashboard/Sidebar-Sections/patients/patients.component'
-          ).then((m) => m.PatientsComponent);
-        },
-      },
-      {
         path: 'patient-reports',
         loadComponent: () => {
           return import(
