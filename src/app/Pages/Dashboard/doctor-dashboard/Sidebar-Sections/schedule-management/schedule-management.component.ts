@@ -34,10 +34,10 @@ export class ScheduleManagementComponent implements OnInit {
     const phoneRegex = /^(?:\+91[-\s]?)?[6-9]\d{9}$/;
     this.scheduleForm = this.fb.group({
       name: [this.name, Validators.required],
-      domain: ['', Validators.required],
+      specialisation: ['', Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
-      alternate: ['Dr. ', Validators.required],
+      alternate: ['',Validators.required],
       phone: ['+91 ', [Validators.required, Validators.pattern(phoneRegex)]],
     });
 
@@ -57,7 +57,7 @@ export class ScheduleManagementComponent implements OnInit {
     const newSchedule: scheduleData = {
       scheduleId: this.selectedschedule?.scheduleId || new Date().getTime(),
       name: formData.name,
-      domain: formData.domain,
+      specialisation: formData.specialisation,
       startDate: formData.startDate,
       endDate: formData.endDate,
       alternate: formData.alternate,
@@ -98,7 +98,7 @@ export class ScheduleManagementComponent implements OnInit {
   selectSchedule(schedule: scheduleData): void {
     this.selectedschedule = { ...schedule };
     this.scheduleForm.patchValue({
-      domain: schedule.domain || '',
+      specialisation: schedule.specialisation || '',
       startDate: schedule.startDate,
       endDate: schedule.endDate,
       alternate: schedule.alternate,

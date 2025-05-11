@@ -1,7 +1,7 @@
 export interface scheduleData{
   scheduleId:number,
   name:string,
-  domain:string
+  specialisation:string
   startDate:string,
   endDate:string,
   alternate:string,

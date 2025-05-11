@@ -1,1 +1,85 @@
-<p>manage-products works!</p>
+<div class="container">
+  <form
+    [formGroup]="productForm"
+    (ngSubmit)="onSubmit()"
+    enctype="multipart/form-data"
+  >
+    <div class="form-row">
+      <div class="form-group">
+        <label for="name">Product Name</label>
+        <input
+          type="text"
+          formControlName="product_name"
+          placeholder="Product Name"
+        />
+      </div>
+      <div class="form-group">
+        <label for="price">Product Price</label>
+        <input
+          type="number"
+          name="price"
+          formControlName="product_price"
+          placeholder="Price"
+        />
+      </div>
+      <div class="form-group">
+        <label for="stock_quantity">Stock Quantity</label>
+        <input
+          type="number"
+          name="stock_quantity"
+          formControlName="stock_quantity"
+          placeholder="Stock Quantity"
+        />
+      </div>
+    </div>
+    <button type="submit" id="save-btn" *ngIf="!editingProductID">Save</button>
+    <button
+      type="submit"
+      id="save-btn"
+      *ngIf="editingProductID"
+      (click)="updateProduct()"
+    >
+      Update
+    </button>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Sr.No</th>
+        <th>Name</th>
+        <th>Stock</th>
+        <th>Price</th>
+        <!-- <th>Image</th> -->
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- 👇 Use filtered array instead of full array -->
+      <tr *ngFor="let product of products; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ product.product_name }}</td>
+        <td>{{ product.product_price }}</td>
+        <td>{{ product.stock_quantity }}</td>
+        <td id="action">
+          <button (click)="editingProduct(product)" id="edit-product">
+            <img
+              src="../../../../../../assets/icons/edit-black.png"
+              width="20px"
+              alt=""
+            />
+          </button>
+          <button
+            (click)="deleteProduct(product.product_id)"
+            id="delete-product"
+          >
+            <img
+              src="../../../../../../assets/icons/delete-black.png"
+              width="20px"
+            />
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

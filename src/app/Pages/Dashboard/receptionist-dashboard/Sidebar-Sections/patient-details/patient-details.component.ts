@@ -27,11 +27,11 @@ export class PatientDetailsComponent implements OnInit{
     this.patientForm = this.fb.group({
       patient_name: ['', Validators.required],
       patient_email: [''],
-      // patient_email: ['none'],
       patient_contact_no: ['', Validators.required],
-      patient_address: [''],
+      // patient_email: ['none'],
       // patient_address: ['none'],
-      imageUrl: [''],
+      // patient_address: [''],
+      // imageUrl: [''],
     });
 
     this.loadPatients();
@@ -72,7 +72,8 @@ export class PatientDetailsComponent implements OnInit{
       ...this.patientForm.value,
       patient_id: this.editingPatientId,
     };
-
+    
+    alert("Product Updated Successfully");
     this.patientService.updatePatient(updatedPatient);
     this.editingPatientId = null;
     this.patientForm.reset();
@@ -81,6 +82,7 @@ export class PatientDetailsComponent implements OnInit{
 
   deletePatient(id: number): void {
     this.patientService.deletePatient(id);
+    alert(`Product ${id} deleted Successfully`);
     this.loadPatients();
   }
 

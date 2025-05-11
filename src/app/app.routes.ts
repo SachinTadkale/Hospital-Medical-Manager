@@ -166,4 +166,15 @@ export const routes: Routes = [
       },
     ],
   },
+  // patient History 
+  {
+    path:'patient-history',
+    pathMatch:'full',
+    loadComponent: () => {
+      return import('./Pages/patient-history/patient-history.component').then(
+        (m) => m.PatientHistoryComponent
+      )
+    }
+  },
 ];
+

@@ -5,22 +5,63 @@
     <div class="form-row">
       <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" id="name" formControlName="name"/>
+        <input type="text" id="name" formControlName="name" />
+        <div
+          class="error"
+          *ngIf="
+            scheduleForm.get('name')?.invalid &&
+            scheduleForm.get('name')?.touched
+          "
+        >
+          Speicalisation is required.
+        </div>
       </div>
 
       <div class="form-group">
-        <label for="domain">Specialisation</label>
-        <input type="text" id="domain" formControlName="domain" placeholder="Specialisation" />
+        <label for="Specialisation">Specialisation</label>
+        <input
+          type="text"
+          id="Specialisation"
+          formControlName="specialisation"
+          placeholder="Specialisation"
+        />
+        <div
+          class="error"
+          *ngIf="
+            scheduleForm.get('specialisation')?.invalid &&
+            scheduleForm.get('specialisation')?.touched
+          "
+        >
+          Speicalisation is required.
+        </div>
       </div>
     </div>
     <div class="form-row">
       <div class="form-group">
         <label for="startDate">Start Date</label>
         <input type="date" id="startDate" formControlName="startDate" />
+        <div
+          class="error"
+          *ngIf="
+            scheduleForm.get('startDate')?.invalid &&
+            scheduleForm.get('startDate')?.touched
+          "
+        >
+          Start Date is required.
+        </div>
       </div>
       <div class="form-group">
         <label for="endDate">End Date</label>
         <input type="date" id="endDate" formControlName="endDate" />
+        <div
+          class="error"
+          *ngIf="
+            scheduleForm.get('endDate')?.invalid &&
+            scheduleForm.get('endDate')?.touched
+          "
+        >
+          End Date is required.
+        </div>
       </div>
     </div>
 
@@ -33,6 +74,15 @@
           formControlName="alternate"
           placeholder="Alternate Doctor Name"
         />
+        <div
+          class="error"
+          *ngIf="
+            scheduleForm.get('alternate')?.invalid &&
+            scheduleForm.get('alternate')?.touched
+          "
+        >
+          Doctor Name is required.
+        </div>
       </div>
 
       <div class="form-group">
@@ -56,8 +106,8 @@
     </div>
 
     <div class="form-group">
-      <button type="submit" id="btn-submit">
-        {{ selectedschedule ? 'Update' : 'Add' }} Schedule
+      <button type="submit" id="btn-submit" [disabled]="scheduleForm.invalid">
+        {{ selectedschedule ? "Update" : "Add" }} Schedule
       </button>
     </div>
   </form>
@@ -82,14 +132,22 @@
           <td>{{ schedule.alternate }}</td>
           <td>{{ schedule.emergencyContact }}</td>
           <td id="btn-container">
-            <button type="button" id="edit-btn" (click)="selectSchedule(schedule)">
+            <button
+              type="button"
+              id="edit-btn"
+              (click)="selectSchedule(schedule)"
+            >
               <img
                 src="../../../../../../assets/icons/edit-black.png"
                 width="20px"
                 alt="Edit"
               />
             </button>
-            <button type="button" id="delete-btn" (click)="deleteSchedule(schedule)">
+            <button
+              type="button"
+              id="delete-btn"
+              (click)="deleteSchedule(schedule)"
+            >
               <img
                 src="../../../../../../assets/icons/delete-black.png"
                 width="20px"

@@ -47,6 +47,7 @@ td {
   text-align: center;
 }
 
+
 th {
   background-color: #009ca4;
   color: white;
@@ -62,5 +63,19 @@ th {
 
 #btn-container button:hover{
   transform: scale(1.3);
+  cursor: pointer;
+}
+
+#history-btn{
+  background-color: #009ca4;
+  color: #fff;
+  padding:10px 15px;
+  font-size: 1em;
+  border-radius: 7px;
+  border: none;
+  transition: all .2s ease-in-out;
+}
+#history-btn:hover{
+  background-color: #017278;
   cursor: pointer;
 }

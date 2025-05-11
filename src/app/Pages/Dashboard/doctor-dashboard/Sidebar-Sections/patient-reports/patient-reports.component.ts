@@ -10,38 +10,27 @@ import {
 } from '@angular/forms'; // Needed for ngModel
 import { PatientService } from '../../../../../Services/Patient/patient.service';
 import { Patient } from '../../../../../model/patient-data';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-patient-reports',
   standalone: true,
-  imports: [CommonModule, FormsModule], // Import the necessary modules for ngModel
+  imports: [CommonModule, FormsModule,RouterLink], // Import the necessary modules for ngModel
   templateUrl: './patient-reports.component.html',
   styleUrls: ['./patient-reports.component.css'],
 })
 export class PatientReportsComponent implements OnInit {
-  patientForm!: FormGroup;
   patients: Patient[] = [];
-  filteredPatients: Patient[] = [];
-  editingPatientId: number | null = null;
-  searchQuery: string = '';
+//  filteredPatients: Patient[] = [];
+  // searchQuery: string = '';
   constructor(
-    private fb: FormBuilder,
     private patientService: PatientService
   ) {}
   ngOnInit(): void {
-    this.patientForm = this.fb.group({
-      patient_name: ['', Validators.required],
-      patient_age: ['', Validators.required],
-      patient_disease: ['', Validators.required],
-      patient_description: [''],
-      patient_address: [''],
-      imageUrl: [''],
-    });
     this.loadPatients();
   }
   loadPatients(): void {
     this.patients = this.patientService.getAllPatients();
-    this.filteredPatients = [...this.patients];
   }
 
   getNextPatientId(): number {
