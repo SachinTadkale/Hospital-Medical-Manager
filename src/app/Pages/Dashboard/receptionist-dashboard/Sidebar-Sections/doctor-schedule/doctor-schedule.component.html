@@ -16,7 +16,7 @@
       <tbody>
         <tr *ngFor="let doctor of doctors; let i = index">
           <td>{{ i + 1 }}</td>
-          <td>Dr. {{ doctor.full_name }}</td>
+          <td>Dr. {{ doctor.firstName }}</td>
           <td>
             <span
               [ngClass]="{

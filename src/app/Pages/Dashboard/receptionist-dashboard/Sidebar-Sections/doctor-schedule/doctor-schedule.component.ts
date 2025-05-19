@@ -30,7 +30,7 @@ export class DoctorScheduleComponent implements OnInit {
     const allDoctors: userData[] = this.authService.getAllDoctors();
 
     this.doctors = allDoctors.map((doctor: userData) => {
-      const doctorKey = `doctor_schedule_${doctor.full_name}`;
+      const doctorKey = `doctor_schedule_${doctor.firstName}`;
       const storedLeaves = localStorage.getItem(doctorKey);
     
       let availability: 'Available' | 'Unavailable' = 'Available';

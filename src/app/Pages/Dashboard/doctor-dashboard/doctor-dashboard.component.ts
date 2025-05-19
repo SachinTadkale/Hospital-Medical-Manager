@@ -18,5 +18,5 @@ import { AuthenticationService } from '../../../Services/Authentication/authenti
 export class DoctorDashboardComponent {
   constructor(private authService: AuthenticationService){}
   
-  name =  this.authService.getCurrentUser()?.full_name;
+  name =  this.authService.getCurrentUser()?.firstName;
 }

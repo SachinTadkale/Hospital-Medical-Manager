@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthenticationService } from '../../../Services/Authentication/authentication-service.service';
+import { AuthRequest } from '../../../model/AuthRequest';
+import { AuthService } from '../../../Services/LoginReg/auth.service';
+import { userData } from '../../../model/user-data';
 
 @Component({
   selector: 'app-login',
@@ -11,40 +14,68 @@ import { AuthenticationService } from '../../../Services/Authentication/authenti
   styleUrl: './login.component.css',
 })
 export class LoginComponent {
-  email: string = '';
-  password: string = '';
-  message: string = '';
+
+
+
+
+  loginData: AuthRequest = {
+    username: '',
+    password: ''
+  };
+
 
   constructor(
-    private authService: AuthenticationService,
+    private authService: AuthService,
     private router: Router
-  ) {}
+  ) { }
 
-  login(): void {
-    this.message = this.authService.login(this.email, this.password);
-    const role = this.authService.getCurrentUser()?.user_role;
-    if (this.message === 'Login successful') {
-      alert(this.message);
+  login() {
 
-      switch (role) {
-        case 'doctor':
-          this.router.navigate(['/doctor-dashboard']);
-          break;
+    if (this.loginData.username && this.loginData.password) {
+      this.authService.login(this.loginData).subscribe({
+        next: (res: string) => {
+          alert('Login Successful!');
+          localStorage.setItem('ManagerToken', res); // `res` is already the token string
+        
+          this.fetchUser();
+        },
+        error: (error) => {
+          console.error('Login failed:', error);
+          alert('Invalid credentials, please try again.');
+        }
+      });
 
-        case 'receptionist':
-          this.router.navigate(['/receptionist-dashboard']);
-          break;
-
-        case 'medical':
-          this.router.navigate(['/medical-dashboard']);
-          break;
-
-        default:
-          alert('Unknown role');
-          break;
-      }
-    } else {
-      alert('Invalid Credentials');
     }
+    else {
+      alert('Please fill in all fields.');
+    }
+  }
+
+   fetchUser(): void {
+    this.authService.getUserById().subscribe({
+      next: (data) => {
+        
+        localStorage.setItem('firstName',data.firstName);
+
+      switch(data.role){
+        case "DOCTOR": 
+          this.router.navigate(['/doctor-dashboard']);
+        break;
+        
+        case "RECEPTIONIST":
+          this.router.navigate(['/receptionist-dashboard']);
+        break;
+        
+        default:
+          console.log("Invalid role");
+        break;
+
+      }
+
+      },
+      error: (err) => {
+      console.log("fail to get user "+err);
+      }
+    });
   }
 }

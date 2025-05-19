@@ -28,7 +28,7 @@ export class ScheduleManagementComponent implements OnInit {
     private AuthService: AuthenticationService,
   ) {}
 
-  name = this.AuthService.getCurrentUser()?.full_name;
+  name = this.AuthService.getCurrentUser()?.firstName;
 
   ngOnInit(): void {
     const phoneRegex = /^(?:\+91[-\s]?)?[6-9]\d{9}$/;

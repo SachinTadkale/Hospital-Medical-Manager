@@ -13,9 +13,11 @@ export class DoctorDashboardNavbarComponent {
   uname: any = this.storedUser;
   constructor(private router:Router){}
   logout() {
-    if (localStorage.getItem('username')) {
-      localStorage.removeItem('username');
+    if (localStorage.getItem('ManagerToken')) {
+      localStorage.removeItem('ManagerToken');
     }
+
+    localStorage.removeItem('username');
   }
   profile(){
     this.router.navigate(

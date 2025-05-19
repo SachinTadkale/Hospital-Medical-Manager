@@ -14,7 +14,7 @@ export class AuthenticationService {
     const users = this.getAllUsers();
 
     // Check if user already exists
-    const userExists = users.some((user) => user.email === userData.email);
+    const userExists = users.some((user) => user.username === userData.username);
     if (userExists) {
       return 'User already exists';
     }
@@ -27,7 +27,7 @@ export class AuthenticationService {
   login(email: string, password: string): string {
     const users = this.getAllUsers();
     const matchedUser = users.find(
-      (user) => user.email === email && user.password === password
+      (user) => user.username === email && user.password === password
     );
 
     if (matchedUser) {
@@ -53,6 +53,6 @@ export class AuthenticationService {
   }
   getAllDoctors():userData[] {
     const users = this.getAllUsers();
-    return users.filter(user => user.user_role == 'doctor')
+    return users.filter(user => user.role == 'doctor')
   }
 }

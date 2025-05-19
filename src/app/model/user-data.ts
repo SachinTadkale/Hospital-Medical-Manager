@@ -1,6 +1,10 @@
-export interface userData{
-  user_role : string,
-  full_name : string,
-  email : string,
-  password : string,
+export class userData{
+  firstName!: string;
+  lastName!: string;
+  age!: number;
+  address!: string;
+  username!: string;
+  password!: string;
+  role!:string;
+
 }
