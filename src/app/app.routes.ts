@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { OnlineAppointmentComponent } from './Pages/Dashboard/receptionist-dashboard/Sidebar-Sections/online-appointment/online-appointment.component';
 
 export const routes: Routes = [
   {
@@ -119,7 +120,9 @@ export const routes: Routes = [
             './Pages/Dashboard/receptionist-dashboard/Sidebar-Sections/patient-details/patient-details.component'
           ).then((m) => m.PatientDetailsComponent);
         },
-      },
+      },{
+        path:'online-appointment', component: OnlineAppointmentComponent
+      }
     ],
   },
 

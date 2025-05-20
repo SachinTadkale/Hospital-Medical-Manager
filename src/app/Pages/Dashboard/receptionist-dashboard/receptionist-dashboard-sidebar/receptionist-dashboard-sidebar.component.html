@@ -24,5 +24,11 @@
     >
       Patient Details
     </li>
+
+    <li [ngClass]="{ active: activeItem === 'Online Appointement'}" 
+    (click)="onItemClick('Online Appointement')"
+    >
+       Online Appointment
+    </li>
   </ul>
 </div>

@@ -1,10 +1,27 @@
 import { Injectable } from '@angular/core';
 import { Patient } from '../../model/patient-data';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { userData } from '../../model/user-data';
+import { Observable } from 'rxjs/internal/Observable';
+import { PatientAppointment } from '../../model/PatientAppointment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PatientService {
+
+private baseUrl = 'http://localhost:8080/api'; // change to your backend URL
+
+  constructor(private http: HttpClient) {}
+
+  getAllAppointments(): Observable<PatientAppointment[]> {
+  
+
+    return this.http.get<PatientAppointment[]>(`${this.baseUrl}/getAppointments`);
+  }
+
+
+
   private localStorageKey = 'patients';
 
   getAllPatients(): Patient[] {

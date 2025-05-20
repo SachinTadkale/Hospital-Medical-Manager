@@ -34,6 +34,11 @@ export class ReceptionistDashboardSidebarComponent {
         this.router.navigate(['receptionist-dashboard/patient-details']);
         this.activeItem = item; // Set the clicked item as active
         break;
+
+      case 'Online Appointement':
+        this.router.navigate(['receptionist-dashboard/online-appointment']);
+        this.activeItem = item;
+        break;  
       default:
         console.log('Unknown menu item clicked.');
     }
